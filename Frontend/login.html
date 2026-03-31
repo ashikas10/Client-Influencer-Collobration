@@ -20,33 +20,33 @@
         </div>
         <button type="submit" class="button">Login</button>  
     </form>
-</body>
-<script>
 
+    <script>
 document.getElementById("login-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-    e.preventDefault(); 
+    // Get values from inputs
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-    const formData = new FormData(this);     
+    const API_URL = "https://client-influencer-backend.onrender.com/api";
 
     try {
-
-        const response = await fetch("http://localhost:8080/api/auth/login", {
+        const response = await fetch(`${API_URL}/login`, {
             method: "POST",
-            body: formData
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })  // send JSON
         });
 
-        const result = await response.text();
+        const result = await response.json(); // parse JSON
 
-        if (result === "Please Signed up") {
-            alert("Please Signed up");
-            window.location.href = "signup.html";
-        }
-        else if (result === "Incorrect password") {
-            alert("Incorrect password");
-        }
-        else if (result === "Login Successfully") {
-            alert("Login Successfully ");
+        if (!result.success) {
+            alert(result.message);
+            if (result.message.includes("sign up")) {
+                window.location.href = "signup.html";
+            }
+        } else {
+            alert(result.message);
             localStorage.setItem("isLoggedIn", "true");
             window.location.href = "index.html";
         }
@@ -55,19 +55,9 @@ document.getElementById("login-form").addEventListener("submit", async function(
         alert("Something went wrong!");
         console.log(error);
     }
-
 });
-const API_URL = "https://client-influencer-backend.onrender.com/api";
-
-// login example
-fetch(`${API_URL}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
-})
-.then(res => res.json())
-.then(data => console.log(data));
 </script>
+</body>
 
 </html>
 
