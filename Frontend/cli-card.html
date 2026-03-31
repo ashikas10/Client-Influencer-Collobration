@@ -31,38 +31,55 @@
       <button type="button" class="but">Back</button>
     </a>
   <script>
-    async function loadInfluencers() {
+const API_URL = "https://your-backend-name.onrender.com";
 
-    const response = await fetch("http://localhost:8080/api/addinfluencer/all");
-    const influencer = await response.json();
+async function loadInfluencers() {
+    try {
+        const response = await fetch(`${API_URL}/api/addinfluencer/all`);
 
-    const container = document.getElementById("influencerDetailBody");
-    container.innerHTML = "";
+        if (!response.ok) {
+            throw new Error("Failed to load influencers");
+        }
 
-    influencer.forEach(influencerDetail => {
+        const influencer = await response.json();
 
-        const card = `
-        <div class="card">
-            <p>Name:  ${influencerDetail.name}</p>
-            <p>Instagram UserName: ${influencerDetail.instaUserName}</p>
-            <p>Product Category: ${influencerDetail.product}</p>
-            <p>Budget: ${influencerDetail.budget}</p>
-            <button onclick="confirmBooking('${influencerDetail.name}','${influencerDetail.instaUserName}','${influencerDetail.budget}')" class="btn-detail">Confirm</button>
-        </div>
-        `;
+        const container = document.getElementById("influencerDetailBody");
+        container.innerHTML = "";
 
-        container.innerHTML += card;
-    });
+        influencer.forEach(influencerDetail => {
+
+            const card = `
+            <div class="card">
+                <p>Name: ${influencerDetail.name}</p>
+                <p>Instagram UserName: ${influencerDetail.instaUserName}</p>
+                <p>Product Category: ${influencerDetail.product}</p>
+                <p>Budget: ${influencerDetail.budget}</p>
+                <button onclick="confirmBooking('${influencerDetail.name}','${influencerDetail.instaUserName}','${influencerDetail.budget}')" class="btn-detail">Confirm</button>
+            </div>
+            `;
+
+            container.innerHTML += card;
+        });
+
+    } catch (error) {
+        console.log(error);
+        document.getElementById("influencerDetailBody").innerHTML = "<p>Failed to load data</p>";
+    }
 }
 
 loadInfluencers();
+
 function confirmBooking(name, username, budget) {
 
     const clientName = localStorage.getItem("clientName");
     const clientMobile = localStorage.getItem("clientMobile");
 
-    console.log(localStorage.getItem("clientName"));
-    console.log(localStorage.getItem("clientMobile"));
+    if (!clientName || !clientMobile) {
+        alert("Please login again");
+        window.location.href = "login.html";
+        return;
+    }
+
     const bookingData = {
         clientName: clientName,
         clientMobile: clientMobile,
@@ -72,7 +89,7 @@ function confirmBooking(name, username, budget) {
         status: "PENDING"
     };
 
-    fetch("http://localhost:8080/bookings", {
+    fetch(`${API_URL}/bookings`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -80,13 +97,18 @@ function confirmBooking(name, username, budget) {
         body: JSON.stringify(bookingData)
     })
     .then(res => {
-    if(res.ok){
-        alert("Booking Successful ");
-        window.location.href="client-profile.html";
-    }
-})
-    .catch(err => console.log(err));
+        if(res.ok){
+            alert("Booking Successful");
+            window.location.href="client-profile.html";
+        } else {
+            alert("Booking Failed");
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        alert("Something went wrong");
+    });
 }
-  </script>
+</script>
 </body>
 </html>

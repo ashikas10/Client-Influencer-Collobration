@@ -98,47 +98,83 @@
         </div>
         <p class="footer" style="color: white;">@ 2026 Client-Influencer Collaboration Platform</p>
     </section>
-</body>
-
-<script>
-    function toggleMenu(){
+    <script>
+function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
+
 document.getElementById("influencer-form").addEventListener("submit", async function(e) {
 
     e.preventDefault();
 
     const name = document.getElementById("name").value;
-    const mobile=document.getElementById("mobile").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const mobile = document.getElementById("mobile").value;
+    const gender = document.getElementById("gender").value;
+    const instauser = document.getElementById("instauser").value;
+    const followers = document.getElementById("followers").value;
+    const budget = document.getElementById("budget").value;
+    const others = document.getElementById("others").value;
+
+    // ✅ Get multiple checkbox values
+    const platform = Array.from(document.querySelectorAll('input[name="platform"]:checked'))
+                        .map(el => el.value);
+
+    const product = Array.from(document.querySelectorAll('input[name="product"]:checked'))
+                        .map(el => el.value);
+
+    const API_URL = "https://client-influencer-backend.onrender.com/api";
 
     if(name.trim() === ""){
         alert("Enter name");
         return;
     }
 
-    const formData = new FormData(this);
-
     try {
-        const response = await fetch("http://localhost:8080/api/auth/influencer", {
+        const response = await fetch(`${API_URL}/influencer`, {
             method: "POST",
-            body: formData
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+                mobile,
+                gender,
+                platform,
+                instauser,
+                followers,
+                budget,
+                product,
+                others
+            })
         });
 
-        const result = await response.text();
+        const result = await response.json();
 
-        if (result === "Registered Successfully") {
+        if (!result.success) {
+            alert(result.message);
+
+            if (result.message.includes("sign up")) {
+                window.location.href = "signup.html";
+            }
+
+        } else {
+            alert(result.message);
 
             localStorage.setItem("influencerName", name);
-            localStorage.setItem("influencerName", name);  
+            localStorage.setItem("influencerMobile", mobile);
 
             window.location.href = "influencer-dashboard.html";
         }
 
     } catch (error) {
+        alert("Something went wrong!");
         console.log(error);
     }
 });
 </script>
-
-
+</body>
 </html>

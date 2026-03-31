@@ -64,19 +64,33 @@
 </div>
 
 <script>
-const clientName = localStorage.getItem("clientName") || "User";
+const API_URL = "https://your-backend-name.onrender.com";
 
+const clientName = localStorage.getItem("clientName");
+
+if (!clientName) {
+    alert("Please login first");
+    window.location.href = "login.html";
+}
+
+// Profile UI
 const firstLetter = clientName.charAt(0).toUpperCase();
-
 document.getElementById("profileCircle").innerText = firstLetter;
 document.getElementById("profileName").innerText = clientName;
 document.getElementById("welcomeText").innerText = "Welcome " + clientName + " 👋";
 
-fetch("http://localhost:8080/bookings")
-.then(res => res.json())
+// Fetch bookings
+fetch(`${API_URL}/bookings`)
+.then(res => {
+    if (!res.ok) {
+        throw new Error("Failed to fetch bookings");
+    }
+    return res.json();
+})
 .then(data => {
 
     const body = document.getElementById("bookingBody");
+    body.innerHTML = ""; // ✅ clear before adding
 
     let total = 0;
     let accepted = 0;
@@ -105,29 +119,29 @@ fetch("http://localhost:8080/bookings")
         }
     });
 
-    // Set counts
+    // Update stats
     document.getElementById("total").innerText = total;
     document.getElementById("accepted").innerText = accepted;
     document.getElementById("pending").innerText = pending;
     document.getElementById("rejected").innerText = rejected;
 
+})
+.catch(err => {
+    console.log(err);
+    alert("Failed to load bookings");
 });
+
+// Menu toggle
 function toggleMenu(){
     const menu = document.getElementById("dropdown");
-
-    if(menu.style.display === "block"){
-        menu.style.display = "none";
-    } else {
-        menu.style.display = "block";
-    }
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
 }
 
+// Logout
 function logout(){
     localStorage.clear();
     window.location.href = "index.html";
 }
-
 </script>
-
 </body>
 </html>

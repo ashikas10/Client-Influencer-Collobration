@@ -86,40 +86,56 @@
         </div>
         <p class="footer" style="color: white;">@ 2026 Client-Influencer Collaboration Platform</p>
     </section>
-</body>
-<script>
-    function toggleMenu(){
+    <script>
+function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
-    }
+}
 
 document.getElementById("client-form").addEventListener("submit", async function(e) {
 
     e.preventDefault(); 
 
     const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
     const mobile = document.getElementById("mobile").value;
+    const brand = document.getElementById("brand").value;
+    const category = document.getElementById("category").value;
 
-    // 🔥 MOVE HERE (IMPORTANT)
+    const API_URL = "https://client-influencer-backend.onrender.com/api";
+
+    // store locally
     localStorage.setItem("clientName", name);
     localStorage.setItem("clientMobile", mobile);
 
-    const formData = new FormData(this);     
-
     try {
 
-        const response = await fetch("http://localhost:8080/api/auth/client", {
+        const response = await fetch(`${API_URL}/client`, {
             method: "POST",
-            body: formData
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+                mobile,
+                brand,
+                category
+            })
         });
 
-        const result = await response.text();
+        const result = await response.json();
 
-        if (result === "Please Signed up") {
-            alert("Please Signed up");
-            window.location.href = "signup.html";
-        }
-        else if (result === "Registered Successfully") {
-            alert("Registered Successfully ");
+        if (!result.success) {
+            alert(result.message);
+
+            if (result.message.includes("sign up")) {
+                window.location.href = "signup.html";
+            }
+
+        } else {
+            alert(result.message);
             window.location.href = "client-profile.html";
         }
 
@@ -130,4 +146,5 @@ document.getElementById("client-form").addEventListener("submit", async function
 
 });
 </script>
+</body>
 </html>

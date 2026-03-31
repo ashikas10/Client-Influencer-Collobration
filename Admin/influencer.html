@@ -58,7 +58,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success" onclick="deleteItem()">Delate</button>
+                    <button class="btn btn-danger" onclick="deleteItem()">Delete</button>
                 </div>
                 </div>
             </div>
@@ -79,81 +79,94 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function logout(){
-            alert("Logged out successfully");
-            window.location.href = "Admin.html";
-        }
-        
-        let selectedId = null;
-        async function loadInfluencers(){
+    if(localStorage.getItem("isAdminLoggedIn") !== "true"){
+        alert("Access Denied ❌");
+        window.location.href = "Admin.html";
+    }
 
-            const response = await fetch("http://localhost:8080/api/influencer/all");
-            const influencer = await response.json();
+    function logout(){
+        localStorage.clear();
+        alert("Logged out successfully");
+        window.location.href = "Admin.html";
+    }
 
-            const tableBody = document.getElementById("influencerBody");
-            tableBody.innerHTML = "";
+    let selectedId = null;
+    let influencerList = []; // ✅ ADD THIS
 
-            influencer.forEach((influencer,index) => {
+    async function loadInfluencers(){
 
-                const row = `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${influencer.name}</td>
-                    <td>${influencer.email}</td>
-                    <td>${influencer.mobile}</td>
-                    <td>${influencer.budget}</td>
-                    <td>
-                        <button onclick='viewItem(${JSON.stringify(influencer)})' class="btn-del">View</button>
-                    </td>
-                </tr>
-                `;
+        const response = await fetch("http://localhost:8080/api/influencer/all");
+        influencerList = await response.json(); // ✅ STORE DATA
 
-                tableBody.innerHTML += row;
+        const tableBody = document.getElementById("influencerBody");
+        tableBody.innerHTML = "";
 
-            });
-        }
-        loadInfluencers();
-        function viewItem(influencer){
+        influencerList.forEach((inf, index) => {
+
+            const row = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${inf.name}</td>
+                <td>${inf.email}</td>
+                <td>${inf.mobile}</td>
+                <td>${inf.budget}</td>
+                <td>
+                    <button onclick="viewItem(${index})" class="btn btn-primary btn-sm">View</button>
+                </td>
+            </tr>
+            `;
+
+            tableBody.innerHTML += row;
+        });
+    }
+
+    loadInfluencers();
+
+    function viewItem(index){
+
+        const influencer = influencerList[index]; // ✅ FIX
+
         selectedId = influencer.id;
-            document.getElementById("infName").value = influencer.name;
-            document.getElementById("infEmail").value = influencer.email;
-            document.getElementById("infMobile").value = influencer.mobile;
-            document.getElementById("infGender").value = influencer.gender;
-            document.getElementById("infPlatform").value = influencer.platform;
-            document.getElementById("infInsta").value = influencer.instauser;
-            document.getElementById("infBudget").value = influencer.budget;
-            document.getElementById("infCategory").value = influencer.product;
-            document.getElementById("infOthers").value = influencer.others;
 
-            let modal = new bootstrap.Modal(document.getElementById('viewModal'));
-            modal.show();
-        }
-        async function deleteItem(){
+        document.getElementById("infName").value = influencer.name;
+        document.getElementById("infEmail").value = influencer.email;
+        document.getElementById("infMobile").value = influencer.mobile;
+        document.getElementById("infGender").value = influencer.gender;
+        document.getElementById("infPlatform").value = influencer.platform;
+        document.getElementById("infInsta").value = influencer.instauser;
+        document.getElementById("infBudget").value = influencer.budget;
+        document.getElementById("infCategory").value = influencer.product;
+        document.getElementById("infOthers").value = influencer.others;
 
-            if(!confirm("Are you sure to delete?")) return;
+        let modal = new bootstrap.Modal(document.getElementById('viewModal'));
+        modal.show();
+    }
 
-            try {
-                const response = await fetch(`http://localhost:8080/api/influencer/${selectedId}`, {
-                    method: "DELETE"
-                });
+    async function deleteItem(){
 
-                if(response.ok){
-                    alert("Deleted Successfully!");
+        if(!confirm("Are you sure to delete?")) return;
 
-                    bootstrap.Modal.getInstance(document.getElementById('viewModal')).hide();
+        try {
+            const response = await fetch(`http://localhost:8080/api/influencer/${selectedId}`, {
+                method: "DELETE"
+            });
 
-                    loadInfluencers();
-                }
-                else{
-                    alert("Delete failed!");
-                }
+            if(response.ok){
+                alert("Deleted Successfully!");
 
-            } catch(error){
-                console.error(error);
-                alert("Error!");
+                bootstrap.Modal.getInstance(document.getElementById('viewModal')).hide();
+
+                loadInfluencers();
             }
+            else{
+                alert("Delete failed!");
+            }
+
+        } catch(error){
+            console.error(error);
+            alert("Error!");
         }
-        
+    }
     </script>
 </body>
 </html>

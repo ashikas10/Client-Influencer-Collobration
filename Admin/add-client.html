@@ -74,11 +74,14 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function logout(){
-            alert("Logged out successfully");
-            window.location.href = "Admin.html";
-        }
-        document.getElementById("add-client-form").addEventListener("submit", async function(e) {
+function logout(){
+    alert("Logged out successfully");
+    window.location.href = "Admin.html";
+}
+
+const API_URL = "https://your-backend-name.onrender.com";
+
+document.getElementById("add-client-form").addEventListener("submit", async function(e) {
 
     e.preventDefault(); 
 
@@ -86,7 +89,7 @@
 
     try {
 
-        const response = await fetch("http://localhost:8080/api/addclient/save", {
+        const response = await fetch(`${API_URL}/api/addclient/save`, {
             method: "POST",
             body: formData
         });
@@ -96,6 +99,8 @@
         if (result === "Client Added Successfully") {
             alert("Client Added Successfully");
             window.location.href = "manage-client.html";
+        } else {
+            alert(result);
         }
 
     } catch (error) {
@@ -104,7 +109,6 @@
     }
 
 });
-    
-    </script>
+</script>
 </body>
 </html>
