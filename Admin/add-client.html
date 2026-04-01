@@ -78,8 +78,11 @@ function logout(){
     alert("Logged out successfully");
     window.location.href = "Admin.html";
 }
-
-const API_URL = "https://your-backend-name.onrender.com";
+if(localStorage.getItem("isAdminLoggedIn") !== "true"){
+            alert("Access Denied ");
+            window.location.href = "Admin.html";
+        }
+const API_URL = "https://client-influencer-backend.onrender.com/api";
 
 document.getElementById("add-client-form").addEventListener("submit", async function(e) {
 
