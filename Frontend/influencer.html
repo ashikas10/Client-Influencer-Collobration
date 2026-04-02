@@ -132,48 +132,44 @@ document.getElementById("influencer-form").addEventListener("submit", async func
     }
 
     try {
-        const response = await fetch(`${API_URL}/influencer`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                password,
-                mobile,
-                gender,
-                platform,
-                instauser,
-                followers,
-                budget,
-                product,
-                others
-            })
-        });
+    const response = await fetch(`${API_URL}/influencer`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name,
+            email,
+            password,
+            mobile,
+            gender,
+            platform,
+            instaUserName: instauser,
+            followers: Number(followers),
+            budget: Number(budget),
+            product,
+            others
+        })
+    });
 
-        const result = await response.json();
-
-        if (!result.success) {
-            alert(result.message);
-
-            if (result.message.includes("sign up")) {
-                window.location.href = "signup.html";
-            }
-
-        } else {
-            alert(result.message);
-
-            localStorage.setItem("influencerName", name);
-            localStorage.setItem("influencerMobile", mobile);
-
-            window.location.href = "influencer-dashboard.html";
-        }
-
-    } catch (error) {
-        alert("Something went wrong!");
-        console.log(error);
+    if (!response.ok) {
+        alert("Registration failed");
+        return;
     }
+
+    const result = await response.json();
+
+    alert(result.message || "Registered successfully");
+
+    localStorage.setItem("influencerName", name);
+    localStorage.setItem("influencerMobile", mobile);
+
+    window.location.href = "influencer-dashboard.html";
+
+} catch (error) {
+    console.log(error);
+    alert("Something went wrong");
+}
 });
 </script>
 </body>

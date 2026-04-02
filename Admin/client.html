@@ -39,17 +39,18 @@
         <div class="cli-content">
             <h2 class="client-heading">Client Details</h2>
             <table class="table table-bordered" id="clientTable">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email Id</th>
-                    <th>Mobile</th>
-                    <th>Brand</th>
-                    <th>Product Category</th>
-                    <th>Action</th>
-                </tr>
-                <tbody id="clientBody">
-                </tbody>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email Id</th>
+                        <th>Mobile</th>
+                        <th>Brand</th>
+                        <th>Product Category</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="clientBody"></tbody>
             </table>
         </div>
     </div>
@@ -57,11 +58,11 @@
     <script>
         if(localStorage.getItem("isAdminLoggedIn") !== "true"){
             alert("Access Denied");
-            window.location.href = "Admin.html";
+            window.location.href = "admin.html";
         }
         function logout(){
             alert("Logged out successfully");
-            window.location.href = "Admin.html";
+            window.location.href = "admin.html";
         }
         async function loadClients(){
 

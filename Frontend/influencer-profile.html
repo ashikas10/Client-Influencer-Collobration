@@ -146,7 +146,7 @@ fetch(`${API_URL}/bookings`)
 // Update status
 function updateStatus(id, status){
 
-    fetch(`${API_URL}/booking/${id}/status?status=${status}`, {
+    fetch(`${API_URL}/bookings/${id}/status?status=${status}`, {
         method: "PUT"
     })
     .then(res => {

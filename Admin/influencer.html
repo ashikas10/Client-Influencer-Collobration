@@ -64,14 +64,16 @@
             </div>
             </div>
             <table class="table table-bordered" id="influencerTable">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email Id</th>
-                    <th>Mobile</th>
-                    <th>Budget</th>
-                    <th>Action</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email Id</th>
+                        <th>Mobile</th>
+                        <th>Budget</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
                 <tbody id="influencerBody">
                 </tbody>
             </table>
@@ -81,15 +83,13 @@
     <script>
     if(localStorage.getItem("isAdminLoggedIn") !== "true"){
         alert("Access Denied");
-        window.location.href = "Admin.html";
+        window.location.href = "admin.html";
     }
-
     function logout(){
         localStorage.clear();
         alert("Logged out successfully");
-        window.location.href = "Admin.html";
+        window.location.href = "admin.html";
     }
-
     let selectedId = null;
     let influencerList = []; // ✅ ADD THIS
 

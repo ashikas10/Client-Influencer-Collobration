@@ -66,16 +66,16 @@
             </div>
             <table class="table table-bordered" id="addInfluencerTable">
                 <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Instagram UserName</th>
-                    <th>Budget</th>
-                    <th>Product</th>
-                    <th>Action</th>
-                </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Instagram UserName</th>
+                        <th>Budget</th>
+                        <th>Product</th>
+                        <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody id="addInfluencerBody">
                 </tbody>
@@ -86,12 +86,12 @@
     <script>
         if(localStorage.getItem("isAdminLoggedIn") !== "true"){
             alert("Access Denied");
-            window.location.href = "Admin.html";
+            window.location.href = "admin.html";
         }
         function logout(){
             localStorage.clear();
             alert("Logged out successfully");
-            window.location.href = "Admin.html";
+            window.location.href = "admin.html";
         }
         async function loadInfluencers(){
 

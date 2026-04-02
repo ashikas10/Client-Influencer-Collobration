@@ -35,7 +35,7 @@ const API_URL = "https://client-influencer-backend.onrender.com/api";
 
 async function loadInfluencers() {
     try {
-        const response = await fetch(`${API_URL}/api/addinfluencer/all`);
+        const response = await fetch(`${API_URL}/addinfluencer/all`);
 
         if (!response.ok) {
             throw new Error("Failed to load influencers");
