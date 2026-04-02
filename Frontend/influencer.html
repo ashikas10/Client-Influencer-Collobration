@@ -143,11 +143,11 @@ document.getElementById("influencer-form").addEventListener("submit", async func
             password,
             mobile,
             gender,
-            platform,
-            instaUserName: instauser,
-            followers: Number(followers),
-            budget: Number(budget),
-            product,
+            platform: platform.join(","),
+            instauser: instauser,
+            followers: followers.toString(),
+            budget: budget.toString(),
+            product: product.join(","),
             others
         })
     });
