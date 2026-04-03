@@ -62,19 +62,19 @@
             window.location.href = "admin.html";
         }
         function loadDashboard(){
-            fetch("http://localhost:8080/api/client/all")
+            fetch("https://client-influencer-backend.onrender.com/api/client/all")
             .then(res => res.json())
             .then(data => {
                 document.getElementById("totalClients").innerText = data.length;
             });
 
-            fetch("http://localhost:8080/api/influencer/all")
+            fetch("https://client-influencer-backend.onrender.com/api/influencer/all")
             .then(res => res.json())
             .then(data => {
                 document.getElementById("totalInfluencers").innerText = data.length;
             });
 
-            fetch("http://localhost:8080/bookings")
+            fetch("https://client-influencer-backend.onrender.com/bookings")
             .then(res => res.json())
             .then(data => {
                 document.getElementById("totalBookings").innerText = data.length;

@@ -64,7 +64,7 @@
             alert("Logged out successfully");
             window.location.href = "admin.html";
         }
-        fetch("http://localhost:8080/bookings")
+        fetch("https://client-influencer-backend.onrender.com/bookings")
         .then(res => res.json())
         .then(data => {
             const body = document.getElementById("bookingBody");

@@ -95,7 +95,7 @@
 
     async function loadInfluencers(){
 
-        const response = await fetch("http://localhost:8080/api/influencer/all");
+        const response = await fetch("https://client-influencer-backend.onrender.com/api/influencer/all");
         influencerList = await response.json(); // ✅ STORE DATA
 
         const tableBody = document.getElementById("influencerBody");
@@ -147,7 +147,7 @@
         if(!confirm("Are you sure to delete?")) return;
 
         try {
-            const response = await fetch(`http://localhost:8080/api/influencer/${selectedId}`, {
+            const response = await fetch(`https://client-influencer-backend.onrender.com/api/influencer/${selectedId}`, {
                 method: "DELETE"
             });
 
