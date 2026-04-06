@@ -114,36 +114,33 @@
     }
     function loadData(){
 
-        fetch("http://localhost:8080/api/influencer/all")
-        .then(res => res.json())
-        .then(data =>{
-            document.getElementById("totalInfluencer").innerText = data.length;
-        });
-        
-        fetch("http://localhost:8080/api/client/all")
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("totalClient").innerText = data.length;
-        });
+    const API_URL = "https://client-influencer-backend.onrender.com/api";
 
-        fetch("http://localhost:8080/bookings")
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("totalBooking").innerText = data.length;
-        });
+    fetch(`${API_URL}/addinfluencer/all`)
+    .then(res => res.json())
+    .then(data =>{
+        document.getElementById("totalInfluencer").innerText = data.length;
+    })
+    .catch(err => console.log(err));
 
-        fetch("http://localhost:8080/bookings")
-        .then(res => res.json())
-        .then(data => {
-            let accepted = 0;
-            data.forEach(b => {
-                if(b.status === "ACCEPTED"){
-                    accepted++;
-                }
-            });
-            document.getElementById("acceptedBooking").innerText = accepted;
-        });
-    }
-    loadData();
+    fetch(`${API_URL}/client/all`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("totalClient").innerText = data.length;
+    })
+    .catch(err => console.log(err));
+
+    fetch(`${API_URL}/bookings`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("totalBooking").innerText = data.length;
+
+        let accepted = data.filter(b => b.status === "ACCEPTED").length;
+        document.getElementById("acceptedBooking").innerText = accepted;
+    })
+    .catch(err => console.log(err));
+}
+loadData();
+
 </script>
 </html>
