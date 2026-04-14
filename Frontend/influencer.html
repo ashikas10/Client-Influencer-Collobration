@@ -123,7 +123,7 @@ document.getElementById("influencer-form").addEventListener("submit", async func
 
     const product = Array.from(document.querySelectorAll('input[name="product"]:checked'))
                         .map(el => el.value);
-
+    
     const API_URL = "https://client-influencer-backend.onrender.com/api";
 
     if(name.trim() === ""){
@@ -132,7 +132,7 @@ document.getElementById("influencer-form").addEventListener("submit", async func
     }
 
     try {
-    const response = await fetch(`${API_URL}/influencer`, {
+        const response = await fetch(`${API_URL}/influencer/save`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

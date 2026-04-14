@@ -1,4 +1,3 @@
-
 /* home */
 *{
     margin: 5px;
@@ -532,21 +531,94 @@ section{
 }
 /*Home*/
 @media screen and (max-width: 768px) {
+
+    /* RESET ONLY FOR MOBILE */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* HERO SECTION */
+    .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px 10px;
+    }
+
+    .hero h1 {
+        font-size: 22px;
+        line-height: 1.3;
+    }
+
+    .hero p {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .home-img {
+        width: 100%;
+        height: auto;
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* BUTTON */
+    .hero button {
+        margin-top: 15px;
+        width: 80%;
+    }
+
+    /* CARD SECTION */
     .home-card-row {
+        display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
+        padding: 10px;
     }
+
     .home-control {
-        width: 90%;
-        margin-left: 5%;
-    } 
-    .hero{
-        flex-direction: column;
-        align-items: center;
+        width: 95%;
+        margin: 10px 0;
     }
-    .footer-container{
+
+    /* MAIN CONTAINER */
+    .home-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* NAVBAR (if present) */
+    .navbar nav {
         flex-direction: column;
         align-items: center;
+        text-align: center;
+    }
+
+    /* FOOTER */
+    .footer-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    /* TEXT FIX */
+    h2, h3 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 14px;
     }
 }
 /*About*/
@@ -643,4 +715,3 @@ section{
     display:flex;
   }
 }
-
