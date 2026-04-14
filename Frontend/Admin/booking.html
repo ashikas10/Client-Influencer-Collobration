@@ -64,10 +64,24 @@
             alert("Logged out successfully");
             window.location.href = "admin.html";
         }
-        fetch("https://client-influencer-backend.onrender.com/bookings")
-        .then(res => res.json())
+        fetch("https://client-influencer-backend.onrender.com/api/bookings")
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Failed to fetch bookings");
+            }
+            return res.json();
+        })
         .then(data => {
+
+            if (!Array.isArray(data)) {
+                console.error("Not array:", data);
+                alert("Invalid data");
+                return;
+            }
+
             const body = document.getElementById("bookingBody");
+            body.innerHTML = "";
+
             data.forEach(b => {
                 const row = `
                 <tr>
@@ -82,6 +96,10 @@
                 `;
                 body.innerHTML += row;
             });
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Error loading bookings");
         });
     </script>
 </body>
